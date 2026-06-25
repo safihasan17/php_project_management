@@ -41,7 +41,7 @@ class PhaseCostsandTiming
         return true;
     }
 
-    public function update()
+     public function update()
     {
         global $db;
         $sql = "UPDATE phase_costs_and_timing SET 

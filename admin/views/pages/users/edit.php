@@ -19,6 +19,8 @@ if(isset($_POST['btn-submit'])){
 }
 
 $roles = Role::readALL();
+
+$row = null;
 if(isset($_GET['id'])){
     $row = User::readById($_GET['id']);
     // echo "<pre>";

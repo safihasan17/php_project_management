@@ -14,23 +14,37 @@ $project = Project::readALL();
 
 $phases = Phases::readALL();
 
+$row = null;
+if(isset($_GET['id'])){
+    $row = PhaseCostsandTiming::readById($_GET['id']);
+    echo "<pre>";
+    print_r($row);
+    echo "</pre>";
+}
 
+
+function getHtmlDateValue($datetimeString) {
+    // Converts the datetime string into the YYYY-MM-DD format required by HTML
+    return date('Y-m-d', strtotime($datetimeString));
+}
 
 
 
 if (isset($_POST['btn_submit'])) {
-    $project_id = $_POST['project_id'];
     $phase_id = $_POST['phase_id'];
+    $project_id = $_POST['project_id'];
     $allocatecost = $_POST['allocatecost'];
     $actualcost = $_POST['actualcost'];
-    $actualtime = $_POST['actualtime'];
-    $expected_time = $_POST['expected_time'];
+
+    $actualtime = !empty($_POST['actualtime']) ? $_POST['actualtime'] : '1000-01-01';
+    $expected_time = !empty($_POST['expected_time']) ? $_POST['expected_time'] : '1000-01-01';
+    
 
 
 
-    $tasks = new PhaseCostsandTiming(null, $project_id, $phase_id, $allocatecost, $actualcost, $actualtime, $expected_time  );
+    $tasks = new PhaseCostsandTiming($_GET['id'],  $phase_id, $project_id, $allocatecost, $actualcost, $actualtime, $expected_time  );
 
-    $tasks = $tasks->create();
+    $tasks = $tasks->update();
 
     if ($tasks === true) {
         $msg = "tasks saved successfully.";
@@ -57,8 +71,10 @@ if (isset($_POST['btn_submit'])) {
                 <div class="form-group">
                     <label class="text-primary">project </label>
                     <select name="project_id" class="form-control">
-                        <?php foreach ($project as $items): ?>
-                            <option value="<?= $items['id']; ?>"><?= $items['title']; ?></option>
+                        <?php foreach ($project as $items): 
+                            $selected = $items['id'] == $row['project_id'] ? 'selected' : '';?>
+                            ?>
+                            <option value="<?= $items['id']; ?>" <?=  $selected ?> ><?= $items['title']; ?></option>
                         <?php endforeach; ?>
                     </select>
                 </div>
@@ -66,30 +82,32 @@ if (isset($_POST['btn_submit'])) {
                 <div class="form-group">
                     <label class="text-primary">phases </label>
                     <select name="phase_id" class="form-control">
-                        <?php foreach ($phases as $items): ?>
-                            <option value="<?= $items['id']; ?>"><?= $items['title']; ?></option>
+                        <?php foreach ($phases as $items):
+                            $selected = $items['id'] == $row['phase_id'] ? 'selected' : '';?>
+                            ?>
+                            <option value="<?= $items['id']; ?>"  <?=  $selected ?> ><?= $items['title']; ?></option>
                         <?php endforeach; ?>
                     </select>
                 </div>
 
                 <div class="form-group">
                     <label class="text-primary">Allocate Cost</label>
-                    <input type="number" class="form-control" name="allocatecost">
+                    <input type="number" class="form-control" name="allocatecost" value="<?= $row['allocated_cost'] ?>">
                 </div>
 
                 <div class="form-group">
                     <label class="text-primary">Actual Cost</label>
-                    <input type="number" class="form-control" name="actualcost">
+                    <input type="number" class="form-control" name="actualcost"  value="<?= $row['actual_cost'] ?>" >
                 </div>
 
                 <div class="form-group">
                     <label class="text-primary">Actual_time</label>
-                    <input type="date" class="form-control" name="actualtime">
+                    <input type="date" class="form-control" name="actualtime" value="<?= getHtmlDateValue($row['actual_time'])  ?>" >
                 </div>
 
                 <div class="form-group">
                     <label class="text-primary">expected_time</label>
-                    <input type="date" class="form-control" name="expected_time">
+                    <input type="date" class="form-control" name="expected_time" value="<?= getHtmlDateValue($row['expected_time'])  ?>">
                 </div>
 
                 
