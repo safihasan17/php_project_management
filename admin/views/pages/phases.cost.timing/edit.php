@@ -17,9 +17,9 @@ $phases = Phases::readALL();
 $row = null;
 if(isset($_GET['id'])){
     $row = PhaseCostsandTiming::readById($_GET['id']);
-    echo "<pre>";
-    print_r($row);
-    echo "</pre>";
+    // echo "<pre>";
+    // print_r($row);
+    // echo "</pre>";
 }
 
 

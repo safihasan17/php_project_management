@@ -18,6 +18,15 @@ $project = Project::readALL();
 $phases = Phases::readALL();
 
 
+$row = null;
+if(isset($_GET['id'])){
+    $row = Tasks::readById($_GET['id']);
+    echo "<pre>";
+    print_r($row);
+    echo "</pre>";
+}
+
+
 
 
 
@@ -29,9 +38,9 @@ if (isset($_POST['btn_submit'])) {
 
 
 
-    $tasks = new Tasks(null, $project_id, $phase_id,  $tittle, $tassign_to_team_id);
+    $tasks = new Tasks($_GET['id'], $project_id, $phase_id,  $tittle, $tassign_to_team_id);
 
-    $tasks = $tasks->create();
+    $tasks = $tasks->update();
 
     if ($tasks === true) {
         $msg = "tasks saved successfully.";
@@ -58,8 +67,10 @@ if (isset($_POST['btn_submit'])) {
                 <div class="form-group">
                     <label class="text-primary">project </label>
                     <select name="project_id" class="form-control">
-                        <?php foreach ($project as $items): ?>
-                            <option value="<?= $items['id']; ?>"><?= $items['title']; ?></option>
+                        <?php foreach ($project as $items): 
+                             $selected = $items['id'] == $row['project_id'] ? 'selected' : '';
+                            ?>
+                            <option value="<?= $items['id']; ?>" <?=  $selected ?> ><?= $items['title']; ?></option>
                         <?php endforeach; ?>
                     </select>
                 </div>
@@ -67,22 +78,26 @@ if (isset($_POST['btn_submit'])) {
                 <div class="form-group">
                     <label class="text-primary">phases </label>
                     <select name="phase_id" class="form-control">
-                        <?php foreach ($phases as $items): ?>
-                            <option value="<?= $items['id']; ?>"><?= $items['title']; ?></option>
+                        <?php foreach ($phases as $items):
+                            $selected = $items['id'] == $row['phase_id'] ? 'selected' : '';
+                            ?>
+                            <option value="<?= $items['id']; ?>" <?=  $selected ?> ><?= $items['title']; ?></option>
                         <?php endforeach; ?>
                     </select>
                 </div>
 
                 <div class="form-group">
                     <label class="text-primary">Tittle</label>
-                    <input type="text" class="form-control" name="tittle" placeholder="Enter name">
+                    <input type="text" class="form-control" name="tittle" placeholder="Enter name"  value="<?= $row['title'] ?>">
                 </div>
 
                 <div class="form-group">
                     <label class="text-primary">assign to teams </label>
                     <select name="assign_to_team_id" class="form-control">
-                        <?php foreach ($Teams as $items): ?>
-                            <option value="<?= $items['id']; ?>"><?= $items['name']; ?></option>
+                        <?php foreach ($Teams as $items): 
+                            $selected = $items['id'] == $row['assign_to_team_id'] ? 'selected' : '';
+                            ?>
+                            <option value="<?= $items['id']; ?>" <?=  $selected ?> ><?= $items['name']; ?></option>
                         <?php endforeach; ?>
                     </select>
                 </div>

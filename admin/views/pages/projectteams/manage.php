@@ -72,9 +72,9 @@ $rows = ProjectTeam::readALL();
                                         <thead>
                                             <tr>
                                                 <th>ID</th>
-                                                <th>Team_name</th>
-                                                <th>Role_name</th>
-                                                <th>Member_name</th>
+                                                <th>Team name</th>
+                                                <th>Role name</th>
+                                                <th>Member name</th>
                                                 <th>Action</th>
                                             
                                             </tr>

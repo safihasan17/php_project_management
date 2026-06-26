@@ -94,8 +94,6 @@ if (isset($_POST['btn_submit'])) {
 
             <?php foreach ($clints as $items):
                $selected = $items['id'] == $row['client_id'] ? 'selected' : '';?>
-              ?>
-              
               <option value="<?= $items['id']; ?>" <?=  $selected ?>><?= $items['name']; ?></option>
             <?php endforeach; ?>
 
@@ -106,7 +104,7 @@ if (isset($_POST['btn_submit'])) {
           <select class="form-control" name="project_category_id">
             <?php foreach ($p_catagory as $items): 
               $selected = $items['id'] == $row['project_category_id'] ? 'selected' : '';?>
-              ?>
+              
               <option value="<?= $items['id']; ?>" <?=  $selected ?>  ><?= $items['name']; ?></option>
             <?php endforeach; ?>
           </select>

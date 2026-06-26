@@ -9,6 +9,13 @@ $Teams = Project::readALL();
 // print_r($p_catagory);
 // echo "</pre>";
 
+$row = null;
+if(isset($_GET['id'])){
+    $row = Teams::readById($_GET['id']);
+    // echo "<pre>";
+    // print_r($row);
+    // echo "</pre>";
+}
 
 
 
@@ -18,12 +25,12 @@ if (isset($_POST['btn_submit'])) {
   $project_id = $_POST['project_id'];
 
   
-  $team = new Teams(null, $name, $project_id );
+  $team = new Teams($_GET['id'], $name, $project_id );
 
-  $teams = $team->create();
+  $teams = $team->update();
 
-  if ($phases === true) {
-    $msg = "Project saved successfully.";
+  if ($teams === true) {
+    $msg = "Team Updated  successfully.";
   } else {
     $msg = "Error: " .$teams;
   }
@@ -47,15 +54,17 @@ if (isset($_POST['btn_submit'])) {
       <div class="card-body">
         <div class="form-group">
           <label>name</label>
-          <input  class="form-control" type="text" name="name" id="">
+          <input  class="form-control" type="text" name="name" id="" value="<?= $row['name'] ?>">
         </div>
 
         <div class="form-group">
           <label>projects </label>
           <select class="form-control" name="project_id">
 
-            <?php foreach ($Teams as $items): ?>
-              <option value="<?= $items['id']; ?>"><?= $items['title']; ?></option>
+            <?php foreach ($Teams as $items):
+            $selected = $items['id'] == $row['project_id'] ? 'selected' : '';
+            ?>
+              <option value="<?= $items['id']; ?>" <?=  $selected ?> ><?= $items['title']; ?></option>
             <?php endforeach; ?>
 
           </select>

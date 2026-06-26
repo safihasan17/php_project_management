@@ -42,7 +42,7 @@ class Phases
 
     static public function readALL(){
         global $db;
-        $sql = 'SELECT p.id, pc.name as project_category, title 
+        $sql = 'SELECT p.id, pc.name as project_category, p.title 
         FROM phases as p , project_categories as pc 
         where p.project_category_id = pc.id';
         $result = $db->query($sql);

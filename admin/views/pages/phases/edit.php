@@ -4,15 +4,17 @@ require_once 'models/phasesclass.php';
 
 $msg = "";
 
-$p_phases = Phases::readALL();
+// $p_phases = Phases::readALL();
 // echo "<pre>";
 // print_r($p_catagory);
 // echo "</pre>";
 
+$p_categories = ProjectCategory::readALL();
 
-// $tittles = Phases::readALL();
+
+$tittles = Phases::readALL();
 // echo "<pre>";
-// print_r($clints);
+// print_r($p_categories);
 // echo "</pre>";
 
 // $users = User::readALL();
@@ -20,23 +22,29 @@ $p_phases = Phases::readALL();
 // print_r($users);
 // echo "</pre>";
 
+$row = null;
+if (isset($_GET['id'])) {
+    $row = Phases::readById($_GET['id']);
+    // echo "<pre>";
+    // print_r($row);
+    // echo "</pre>";
+}
+
 
 if (isset($_POST['btn_submit'])) {
-  $project_category_id = $_POST['project_category'];
-  $title = $_POST['title'];
+    $project_category_id = $_POST['project_category'];
+    $title = $_POST['title'];
 
-  
-  $phases = new phases(null, $project_category_id, $title );
 
-  $phases = $phases->create();
+    $phases = new phases($_GET['id'], $project_category_id, $title);
 
-  if ($phases === true) {
-    $msg = "Project saved successfully.";
-  } else {
-    $msg = "Error: " .$phases;
-  }
+    $phases = $phases->update();
 
-  
+    if ($phases === true) {
+        $msg = "Phases saved successfully.";
+    } else {
+        $msg = "Error: " . $phases;
+    }
 }
 
 
@@ -44,39 +52,45 @@ if (isset($_POST['btn_submit'])) {
 
 
 <div class="content-wrapper">
-  <div class="card card-primary card-outline mb-4">
-    <div class="card-header">
-      <div class="card-title">Form</div> <br> <br>
+    <div class="card card-primary card-outline mb-4">
+        <div class="card-header">
+            <div class="card-title">Form</div> <br> <br>
 
-      <a href="manage_phases" class="btn btn-sm btn-dark">Back</a>
+            <a href="manage_phases" class="btn btn-sm btn-dark">Back</a>
+        </div>
+
+        <form action="" method="POST" enctype="multipart/form-data">
+
+
+            <div class="card-body">
+                <div class="form-group">
+                    <label>title</label>
+                    <input class="form-control" type="text" name="title" id="" value="<?= $row['title'] ?>">
+                </div>
+
+                <div class="form-group">
+                    <label>project_category</label>
+                    <select class="form-control" name="project_category">
+
+                        <?php foreach ($p_categories as $items):
+                            $selected = $items['id'] == $row['project_category_id'] ? 'selected' : ''; ?>
+
+                            <option value="<?= $items['id']; ?>" <?= $selected ?>><?= $items['name']; ?></option>
+                        <?php endforeach; ?>
+
+                    </select>
+                </div>
+
+
+            </div>
+            <!-- /.card-body -->
+            <div class="card-footer">
+                <button type="submit" name="btn_submit" class="btn btn-primary">Submit</button>
+            </div>
+        </form>
+
+        <h3><?= $msg; ?></h3>
     </div>
-
-    <form action="" method="POST" enctype="multipart/form-data">
-      <div class="card-body">
-        <div class="form-group">
-          <label>project_category</label>
-          <select class="form-control" name="project_category">
-
-            <?php foreach ($p_phases as $items): ?>
-              <option value="<?= $items['id']; ?>"><?= $items['title']; ?></option>
-            <?php endforeach; ?>
-
-          </select>
-        </div>
-        <div class="form-group">
-          <label>title</label>
-          <input  class="form-control" type="text" name="title" id="">
-        </div>
-        
-      </div>
-      <!-- /.card-body -->
-      <div class="card-footer">
-        <button type="submit" name="btn_submit" class="btn btn-primary">Submit</button>
-      </div>
-    </form>
-
-    <h3><?= $msg; ?></h3>
-  </div>
 
 
 </div>

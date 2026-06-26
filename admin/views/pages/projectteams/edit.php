@@ -18,6 +18,15 @@ $TeamRole = TeamRole::readALL();
 $TeamMember = TeamMember::readALL();
 
 
+$row = null;
+if(isset($_GET['id'])){
+    $row = ProjectTeam::readById($_GET['id']);
+    // echo "<pre>";
+    // print_r($row);
+    // echo "</pre>";
+}
+
+
 
 
 
@@ -28,12 +37,12 @@ if (isset($_POST['btn_submit'])) {
     
 
 
-    $ProjectTeam = new ProjectTeam( null ,$team_id, $team_role_id, $team_member_id);
+    $ProjectTeam = new ProjectTeam( $_GET['id'] ,$team_id, $team_role_id, $team_member_id);
 
-    $teams = $ProjectTeam->create();
+    $teams = $ProjectTeam->update();
 
     if ($teams === true) {
-        $msg = "Project saved successfully.";
+        $msg = " project team list saved successfully.";
     } else {
         $msg = "Error: " . $teams;
     }
@@ -58,8 +67,10 @@ if (isset($_POST['btn_submit'])) {
                     <label>Teams </label>
                     <select class="form-control" name="team_id">
 
-                        <?php foreach ($Teams as $items): ?>
-                            <option value="<?= $items['id']; ?>"><?= $items['name']; ?></option>
+                        <?php foreach ($Teams as $items):
+                           $selected = $items['id'] == $row['team_id'] ? 'selected' : '';  
+                            ?>
+                            <option value="<?= $items['id']; ?>" <?=  $selected ?> ><?= $items['name']; ?></option>
                         <?php endforeach; ?>
 
                     </select>
@@ -69,8 +80,10 @@ if (isset($_POST['btn_submit'])) {
                     <label>Team role </label>
                     <select class="form-control" name="team_role_id">
 
-                        <?php foreach ($TeamRole as $items): ?>
-                            <option value="<?= $items['id']; ?>"><?= $items['name']; ?></option>
+                        <?php foreach ($TeamRole as $items):
+                           $selected = $items['id'] == $row['team_role_id'] ? 'selected' : ''; 
+                            ?>
+                            <option value="<?= $items['id']; ?>" <?=  $selected ?> ><?= $items['name']; ?></option>
                         <?php endforeach; ?>
 
                     </select>
@@ -80,8 +93,10 @@ if (isset($_POST['btn_submit'])) {
                     <label>Team member </label>
                     <select class="form-control" name="team_member_id">
 
-                        <?php foreach ($TeamMember as $items): ?>
-                            <option value="<?= $items['id']; ?>"><?= $items['name']; ?></option>
+                        <?php foreach ($TeamMember as $items):
+                          $selected = $items['id'] == $row['team_member_id'] ? 'selected' : ''; 
+                            ?>
+                            <option value="<?= $items['id']; ?>" <?=  $selected ?>  ><?= $items['name']; ?></option>
                         <?php endforeach; ?>
 
                     </select>

@@ -72,8 +72,8 @@ $rows = Phases::readALL();
                                         <thead>
                                             <tr>
                                                 <th>ID</th>
-                                                <th>project_categories</th>
                                                 <th>title</th>
+                                                <th>project_categories</th>
                                                 <th>Action</th>
                                             
                                             </tr>

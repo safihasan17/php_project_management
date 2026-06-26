@@ -14,21 +14,19 @@ $p_phases = ProjectCategory::readALL();
 
 
 if (isset($_POST['btn_submit'])) {
-  $project_category_id = $_POST['project_category'];
-  $title = $_POST['title'];
+    $project_category_id = $_POST['project_category'];
+    $title = $_POST['title'];
 
-  
-  $phases = new phases(null, $project_category_id, $title );
 
-  $phases = $phases->create();
+    $phases = new phases(null, $project_category_id, $title);
 
-  if ($phases === true) {
-    $msg = "phases saved successfully";
-  } else {
-    $msg = "Error: " .$phases;
-  }
+    $phases = $phases->create();
 
-  
+    if ($phases === true) {
+        $msg = "phases saved successfully";
+    } else {
+        $msg = "Error: " . $phases;
+    }
 }
 
 
@@ -36,39 +34,42 @@ if (isset($_POST['btn_submit'])) {
 
 
 <div class="content-wrapper">
-  <div class="card card-primary card-outline mb-4">
-    <div class="card-header">
-      <div class="card-title">Form</div> <br> <br>
+    <div class="card card-primary card-outline mb-4">
+        <div class="card-header">
+            <div class="card-title">Form</div> <br> <br>
 
-      <a href="manage_phases" class="btn btn-sm btn-dark">Back</a>
+            <a href="manage_phases" class="btn btn-sm btn-dark">Back</a>
+        </div>
+
+        <form action="" method="POST" enctype="multipart/form-data">
+            <div class="card-body">
+
+                <div class="form-group">
+                    <label>title</label>
+                    <input class="form-control" type="text" name="title" id="">
+                </div>
+
+                <div class="form-group">
+                    <label>project_category</label>
+                    <select class="form-control" name="project_category">
+
+                        <?php foreach ($p_phases as $items): ?>
+                            <option value="<?= $items['id']; ?>"><?= $items['name']; ?></option>
+                        <?php endforeach; ?>
+
+                    </select>
+                </div>
+
+
+            </div>
+            <!-- /.card-body -->
+            <div class="card-footer">
+                <button type="submit" name="btn_submit" class="btn btn-primary">Submit</button>
+            </div>
+        </form>
+
+        <h3><?= $msg; ?></h3>
     </div>
-
-    <form action="" method="POST" enctype="multipart/form-data">
-      <div class="card-body">
-        <div class="form-group">
-          <label>project_category</label>
-          <select class="form-control" name="project_category">
-
-            <?php foreach ($p_phases as $items): ?>
-              <option value="<?= $items['id']; ?>"><?= $items['name']; ?></option>
-            <?php endforeach; ?>
-
-          </select>
-        </div>
-        <div class="form-group">
-          <label>title</label>
-          <input  class="form-control" type="text" name="title" id="">
-        </div>
-        
-      </div>
-      <!-- /.card-body -->
-      <div class="card-footer">
-        <button type="submit" name="btn_submit" class="btn btn-primary">Submit</button>
-      </div>
-    </form>
-
-    <h3><?= $msg; ?></h3>
-  </div>
 
 
 </div>
