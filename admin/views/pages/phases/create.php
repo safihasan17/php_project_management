@@ -33,7 +33,7 @@ if (isset($_POST['btn_submit'])) {
 ?>
 
 
-<div class="content-wrapper">
+<!-- <div class="content-wrapper">
     <div class="card card-primary card-outline mb-4">
         <div class="card-header">
             <div class="card-title">Form</div> <br> <br>
@@ -62,7 +62,7 @@ if (isset($_POST['btn_submit'])) {
 
 
             </div>
-            <!-- /.card-body -->
+            
             <div class="card-footer">
                 <button type="submit" name="btn_submit" class="btn btn-primary">Submit</button>
             </div>
@@ -72,7 +72,7 @@ if (isset($_POST['btn_submit'])) {
     </div>
 
 
-</div>
+</div> -->
 
 
 
@@ -138,3 +138,59 @@ if (isset($_POST['btn_submit'])) {
     </div>
     
 </div> -->
+
+
+<div class="content-wrapper m-5">
+  <div class="nk-block nk-block-lg m-5">
+    <div class="nk-block-head">
+      <div class="nk-block-head-content">
+        <h4 class="title nk-block-title">Form</h4>
+      </div>
+    </div>
+    <div class="card card-bordered">
+      <div class="card-inner">
+        <div class="card-head d-flex justify-content-between align-items-center mb-3">
+          <h5 class="card-title">Phases Info</h5>
+          <div>
+            <h6 class="text-success d-inline me-3"><?= $msg; ?></h6>
+            <a href="manage_phases" class="btn btn-sm btn-dark">Back</a>
+          </div>
+        </div>
+
+        <form action="" method="POST" enctype="multipart/form-data">
+          <div class="row g-4">
+
+            <div class="col-6">
+              <div class="form-group">
+                <label class="form-label text-primary">Title</label>
+                <div class="form-control-wrap">
+                  <input type="text" class="form-control bg-white" name="title">
+                </div>
+              </div>
+            </div>
+
+            <div class="col-6">
+              <div class="form-group">
+                <label class="form-label text-primary">Project Category</label>
+                <div class="form-control-wrap">
+                  <select class="form-control bg-white" name="project_category">
+                    <?php foreach ($p_phases as $items): ?>
+                      <option value="<?= $items['id']; ?>"><?= $items['name']; ?></option>
+                    <?php endforeach; ?>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-12">
+              <div class="form-group">
+                <button type="submit" name="btn_submit" class="btn btn-lg btn-primary">Submit</button>
+              </div>
+            </div>
+
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

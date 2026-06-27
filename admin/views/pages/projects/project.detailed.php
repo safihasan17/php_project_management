@@ -34,45 +34,6 @@ if ($completion >= 100) {
 
 
 <!-- ✅ Overall Completion Banner -->
-<div class="card border-0 shadow-sm mb-4" style="background: linear-gradient(135deg, #f8f9fa, #e9f7ef);">
-    <div class="card-body p-4">
-        <div class="d-flex justify-content-between align-items-center mb-2">
-            <h5 class="mb-0 fw-bold"><i class="fa-solid fa-chart-line me-2 text-success"></i>Overall Project Completion</h5>
-            <span class="fs-4 fw-bold <?= $completion >= 100 ? 'text-success' : ($completion >= 60 ? 'text-info' : 'text-warning') ?>">
-                <?= $completion ?>%
-            </span>
-        </div>
-        <div class="progress mb-2" style="height: 18px; border-radius: 10px;">
-            <div class="progress-bar <?= $barColor ?> progress-bar-striped progress-bar-animated"
-                role="progressbar"
-                style="width: <?= $completion ?>%; font-size:.8rem; font-weight:600;"
-                aria-valuenow="<?= $completion ?>"
-                aria-valuemin="0"
-                aria-valuemax="100">
-                <?= $completion ?>%
-            </div>
-        </div>
-        <div class="row g-2 mt-1">
-            <div class="col-auto">
-                <span class="badge bg-light text-dark border">
-                    <i class="fa-solid fa-coins me-1"></i>
-                    Phase Budget: <strong><?= number_format($totalAllocated, 2) ?></strong>
-                </span>
-            </div>
-            <div class="col-auto">
-                <span class="badge <?= $budgetIsOver ? 'bg-danger' : 'bg-success' ?>">
-                    <i class="fa-solid fa-money-bill me-1"></i>
-                    Phase Actual: <strong><?= number_format($totalActual, 2) ?></strong>
-                    <?= $budgetIsOver ? '⚠ Over Budget' : '✓ On Budget' ?>
-                </span>
-            </div>
-        </div>
-        <p class="text-muted small mt-2 mb-0">
-            * Completion = (Total Actual Cost ÷ Total Allocated Cost) × 100 — based on all phases of this project.
-        </p>
-    </div>
-</div>
-
 
 <div class="card border-0 shadow-sm mb-4">
     <div class="card-body p-2">
@@ -169,6 +130,48 @@ if ($completion >= 100) {
 
     </div>
 </div>
+
+<div class="card border-0 shadow-sm mb-4" style="background: linear-gradient(135deg, #f8f9fa, #e9f7ef);">
+    <div class="card-body p-4">
+        <div class="d-flex justify-content-between align-items-center mb-2">
+            <h5 class="mb-0 fw-bold"><i class="fa-solid fa-chart-line me-2 text-success"></i>Overall Project Completion</h5>
+            <span class="fs-4 fw-bold <?= $completion >= 100 ? 'text-success' : ($completion >= 60 ? 'text-info' : 'text-warning') ?>">
+                <?= $completion ?>%
+            </span>
+        </div>
+        <div class="progress mb-2" style="height: 18px; border-radius: 10px;">
+            <div class="progress-bar <?= $barColor ?> progress-bar-striped progress-bar-animated"
+                role="progressbar"
+                style="width: <?= $completion ?>%; font-size:.8rem; font-weight:600;"
+                aria-valuenow="<?= $completion ?>"
+                aria-valuemin="0"
+                aria-valuemax="100">
+                <?= $completion ?>%
+            </div>
+        </div>
+        <div class="row g-2 mt-1">
+            <div class="col-auto">
+                <span class="badge bg-light text-dark border">
+                    <i class="fa-solid fa-coins me-1"></i>
+                    Phase Budget: <strong><?= number_format($totalAllocated, 2) ?></strong>
+                </span>
+            </div>
+            <div class="col-auto">
+                <span class="badge <?= $budgetIsOver ? 'bg-danger' : 'bg-success' ?>">
+                    <i class="fa-solid fa-money-bill me-1"></i>
+                    Phase Actual: <strong><?= number_format($totalActual, 2) ?></strong>
+                    <?= $budgetIsOver ? '⚠ Over Budget' : '✓ On Budget' ?>
+                </span>
+            </div>
+        </div>
+        <p class="text-muted small mt-2 mb-0">
+            <!-- * Completion = (Total Actual Cost ÷ Total Allocated Cost) × 100 — based on all phases of this project. -->
+        </p>
+    </div>
+</div>
+
+
+
 
 
 

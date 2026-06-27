@@ -40,7 +40,7 @@ else{
 ?>
 
 
-<div class="content-wrapper">
+<!-- <div class="content-wrapper">
     <div class="card card-primary card-outline mb-4">
         <div class="card-header">
             <div class="card-title">Edit User</div> <br> <br>
@@ -94,4 +94,90 @@ else{
     </div>
 
 
+</div> -->
+
+
+
+<div class="content-wrapper m-5">
+  <div class="nk-block nk-block-lg m-5">
+    <div class="nk-block-head">
+      <div class="nk-block-head-content">
+        <h4 class="title nk-block-title">Edit User</h4>
+      </div>
+    </div>
+    <div class="card card-bordered">
+      <div class="card-inner">
+        <div class="card-head d-flex justify-content-between align-items-center mb-3">
+          <h5 class="card-title">User Info</h5>
+          <div>
+            <h6 class="text-success d-inline me-3"><?= $msg ?? "" ?></h6>
+            <a href="manage" class="btn btn-sm btn-dark">Back</a>
+          </div>
+        </div>
+
+        <form method="POST">
+          <input type="hidden" name="id" value="<?= $row['id']; ?>">
+          <div class="row g-4">
+
+            <div class="col-6">
+              <div class="form-group">
+                <label class="form-label text-primary">Name</label>
+                <div class="form-control-wrap">
+                  <input type="text" class="form-control bg-white" name="name" value="<?= $row['name'] ?>">
+                </div>
+              </div>
+            </div>
+
+            <div class="col-6">
+              <div class="form-group">
+                <label class="form-label text-primary">Email Address</label>
+                <div class="form-control-wrap">
+                  <input type="text" class="form-control bg-white" name="email" value="<?= $row['email'] ?>">
+                </div>
+              </div>
+            </div>
+
+            <div class="col-6">
+              <div class="form-group">
+                <label class="form-label text-primary">Role</label>
+                <div class="form-control-wrap">
+                  <select class="form-control bg-white" name="role">
+                    <?php foreach ($roles as $items):
+                      $selected = $items['id'] == $row['role_id'] ? 'selected' : ''; ?>
+                      <option value="<?= $items['id']; ?>" <?= $selected; ?>><?= $items['name']; ?></option>
+                    <?php endforeach; ?>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-6">
+              <div class="form-group">
+                <label class="form-label text-primary">Password</label>
+                <div class="form-control-wrap">
+                  <input type="password" class="form-control bg-white" name="password">
+                </div>
+              </div>
+            </div>
+
+            <div class="col-6">
+              <div class="form-group">
+                <label class="form-label text-primary">Confirm Password</label>
+                <div class="form-control-wrap">
+                  <input type="password" class="form-control bg-white" name="con_password">
+                </div>
+              </div>
+            </div>
+
+            <div class="col-12">
+              <div class="form-group">
+                <button type="submit" name="btn-submit" class="btn btn-lg btn-primary">Update</button>
+              </div>
+            </div>
+
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
 </div>

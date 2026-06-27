@@ -52,8 +52,8 @@ $rows = PhaseCostsandTiming::readALL();
                             <div class="card-header d-flex align-items-center justify-content-between">
                                 <a class="btn btn-sm btn-dark" href="create_phases_cost">Add Phase Cost</a>
                                 <small class="text-muted">
-                                    <i class="fa fa-info-circle me-1"></i>
-                                    Phase budget save/update করলে project এর overall budget automatic update হয়।
+                                    <!-- <i class="fa fa-info-circle me-1"></i> -->
+                                    <!-- Phase budget save/update করলে project এর overall budget automatic update হয়। -->
                                 </small>
                             </div>
 

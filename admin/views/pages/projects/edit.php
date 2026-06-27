@@ -72,7 +72,7 @@ if (isset($_POST['btn_submit'])) {
 ?>
 
 
-<div class="content-wrapper">
+<!-- <div class="content-wrapper">
   <div class="card card-primary card-outline mb-4">
     <div class="card-header">
       <div class="card-title">Edit Project</div> <br> <br>
@@ -145,7 +145,7 @@ if (isset($_POST['btn_submit'])) {
           <input type="number" class="form-control" name="budgetcost" value="<?= $row['budget_cost'] ?>">
         </div>
       </div>
-      <!-- /.card-body -->
+     
     <div class="card-footer">
       <button type="submit" name="btn_submit" class="btn btn-primary">Update</button>
     </div>
@@ -161,4 +161,143 @@ if (isset($_POST['btn_submit'])) {
   </div>
 
 
+</div> -->
+
+
+<div class="content-wrapper m-5">
+  <div class="nk-block nk-block-lg m-5">
+    <div class="nk-block-head">
+      <div class="nk-block-head-content">
+        <h4 class="title nk-block-title">Edit Project</h4>
+      </div>
+    </div>
+    <div class="card card-bordered">
+      <div class="card-inner">
+        <div class="card-head d-flex justify-content-between align-items-center mb-3">
+          <h5 class="card-title">Project Info</h5>
+          <div>
+            <h6 class="text-success d-inline me-3"><?= $msg ?? "" ?></h6>
+            <a href="manage_project" class="btn btn-sm btn-dark">Back</a>
+          </div>
+        </div>
+
+        <form action="" method="POST" enctype="multipart/form-data">
+          <div class="row g-4">
+
+            <div class=" col-12 col-md-6">
+              <div class="form-group">
+                <label class="form-label text-primary">Title</label>
+                <div class="form-control-wrap">
+                  <input type="text" class="form-control bg-white" name="tittle" placeholder="Enter title" value="<?= $row['title'] ?>">
+                </div>
+              </div>
+            </div>
+
+            <div class=" col-12 col-md-6">
+              <div class="form-group">
+                <label class="form-label text-primary">Client</label>
+                <div class="form-control-wrap">
+                  <select class="form-control bg-white" name="clint_id">
+                    <?php foreach ($clints as $items):
+                      $selected = $items['id'] == $row['client_id'] ? 'selected' : ''; ?>
+                      <option value="<?= $items['id']; ?>" <?= $selected ?>><?= $items['name']; ?></option>
+                    <?php endforeach; ?>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div class=" col-12 col-md-6">
+              <div class="form-group">
+                <label class="form-label text-primary">Project Category</label>
+                <div class="form-control-wrap">
+                  <select class="form-control bg-white" name="project_category_id">
+                    <?php foreach ($p_catagory as $items):
+                      $selected = $items['id'] == $row['project_category_id'] ? 'selected' : ''; ?>
+                      <option value="<?= $items['id']; ?>" <?= $selected ?>><?= $items['name']; ?></option>
+                    <?php endforeach; ?>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div class=" col-12 col-md-6">
+              <div class="form-group">
+                <label class="form-label text-primary">User</label>
+                <div class="form-control-wrap">
+                  <select class="form-control bg-white" name="user_id">
+                    <?php foreach ($users as $items):
+                      $selected = $items['id'] == $row['user_id'] ? 'selected' : ''; ?>
+                      <option value="<?= $items['id']; ?>" <?= $selected ?>><?= $items['name']; ?></option>
+                    <?php endforeach; ?>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div class=" col-12 col-md-6">
+              <div class="form-group">
+                <label class="form-label text-primary">Expected Starting Time</label>
+                <div class="form-control-wrap">
+                  <input type="date" class="form-control bg-white" name="exstartingtime" value="<?= getHtmlDateValue($row['expected_starting_time']) ?>">
+                </div>
+              </div>
+            </div>
+
+            <div class=" col-12 col-md-6">
+              <div class="form-group">
+                <label class="form-label text-primary">Expected Ending Time</label>
+                <div class="form-control-wrap">
+                  <input type="date" class="form-control bg-white" name="exendingtime" value="<?= getHtmlDateValue($row['expected_ending_time']) ?>">
+                </div>
+              </div>
+            </div>
+
+            <div class=" col-12 col-md-6">
+              <div class="form-group">
+                <label class="form-label text-primary">Actual Starting Time</label>
+                <div class="form-control-wrap">
+                  <input type="date" class="form-control bg-white" name="acstartingtime" value="<?= getHtmlDateValue($row['actual_starting_time']) ?>">
+                </div>
+              </div>
+            </div>
+
+            <div class=" col-12 col-md-6">
+              <div class="form-group">
+                <label class="form-label text-primary">Actual Ending Time</label>
+                <div class="form-control-wrap">
+                  <input type="date" class="form-control bg-white" name="acendingtime" value="<?= getHtmlDateValue($row['actual_ending_time']) ?>">
+                </div>
+              </div>
+            </div>
+
+            <div class=" col-12 col-md-6">
+              <div class="form-group">
+                <label class="form-label text-primary">Actual Cost</label>
+                <div class="form-control-wrap">
+                  <input type="number" class="form-control bg-white" name="actualcost" value="<?= $row['actual_cost'] ?>">
+                </div>
+              </div>
+            </div>
+
+            <div class=" col-12 col-md-6">
+              <div class="form-group">
+                <label class="form-label text-primary">Budget Cost</label>
+                <div class="form-control-wrap">
+                  <input type="number" class="form-control bg-white" name="budgetcost" value="<?= $row['budget_cost'] ?>">
+                </div>
+              </div>
+            </div>
+
+            <div class=" col-12 col-md-6">
+              <div class="form-group">
+                <button type="submit" name="btn_submit" class="btn btn-lg btn-primary">Update</button>
+              </div>
+            </div>
+
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
 </div>
