@@ -40,7 +40,7 @@ class Phases
         }
     }
 
-    static public function readALL($_pg = 1, $_limit= 2){
+    static public function readALL($_pg = 1, $_limit= 25){
         global $db;
         $skip = ($_pg -1)*$_limit;
         $sql = "SELECT p.id, pc.name as project_category, p.title 

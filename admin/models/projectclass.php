@@ -111,26 +111,75 @@ class Project
         //     ) as phase_sum ON p.id = phase_sum.project_id";
 
 
-        $sql = "SELECT p.id, p.title, c.name AS client_name, pc.name AS category_name,        
-       u.name AS user_name, p.expected_starting_time, p.expected_ending_time, p.actual_starting_time, p.actual_ending_time, p.actual_cost, p.budget_cost,
-       COALESCE(phase_sum.total_allocated, 0) AS phase_budget,
-       COALESCE(phase_sum.total_actual, 0) AS phase_actual,
-       CASE 
-           WHEN COALESCE(phase_sum.total_allocated, 0) = 0 THEN 0
-           ELSE ROUND((COALESCE(phase_sum.total_actual, 0) / COALESCE(phase_sum.total_allocated, 0)) * 100, 1)
-       END AS completion_percent
-      FROM projects AS p, clients AS c, users AS u, project_categories AS pc,
-      (
-         SELECT project_id, 
-                SUM(allocated_cost) AS total_allocated, 
-                SUM(actual_cost) AS total_actual
-         FROM phase_costs_and_timing
-         GROUP BY project_id
-     ) AS phase_sum
-      WHERE p.client_id = c.id
-      AND p.user_id = u.id
-      AND p.project_category_id = pc.id
-     AND p.id = phase_sum.project_id  ";
+    //     $sql = "SELECT p.id, p.title, c.name AS client_name, pc.name AS category_name,        
+    //    u.name AS user_name, p.expected_starting_time, p.expected_ending_time, p.actual_starting_time, p.actual_ending_time, p.actual_cost, p.budget_cost,
+    //    COALESCE(phase_sum.total_allocated, 0) AS phase_budget,
+    //    COALESCE(phase_sum.total_actual, 0) AS phase_actual,
+    //    CASE 
+    //        WHEN COALESCE(phase_sum.total_allocated, 0) = 0 THEN 0
+    //        ELSE ROUND((COALESCE(phase_sum.total_actual, 0) / COALESCE(phase_sum.total_allocated, 0)) * 100, 1)
+    //    END AS completion_percent
+    //   FROM projects AS p, clients AS c, users AS u, project_categories AS pc,
+    //   (
+    //      SELECT project_id, 
+    //             SUM(allocated_cost) AS total_allocated, 
+    //             SUM(actual_cost) AS total_actual
+    //      FROM phase_costs_and_timing
+    //      GROUP BY project_id
+    //  ) AS phase_sum
+    //   WHERE p.client_id = c.id
+    //   AND p.user_id = u.id
+    //   AND p.project_category_id = pc.id
+    //  AND p.id = phase_sum.project_id  ";
+
+     $sql = "SELECT 
+            p.id, 
+            p.title,
+            c.name  AS client_name,
+            pc.name AS category_name,
+            u.name  AS user_name,
+            p.expected_starting_time, 
+            p.expected_ending_time,
+            p.actual_starting_time, 
+            p.actual_ending_time,
+            p.actual_cost, 
+            p.budget_cost,
+            COALESCE((
+                SELECT SUM(allocated_cost) 
+                FROM phase_costs_and_timing 
+                WHERE project_id = p.id
+            ), 0) AS phase_budget,
+            COALESCE((
+                SELECT SUM(actual_cost) 
+                FROM phase_costs_and_timing 
+                WHERE project_id = p.id
+            ), 0) AS phase_actual,
+            CASE 
+                WHEN COALESCE((
+                    SELECT SUM(allocated_cost) 
+                    FROM phase_costs_and_timing 
+                    WHERE project_id = p.id
+                ), 0) = 0 THEN 0
+                ELSE ROUND(
+                    COALESCE((
+                        SELECT SUM(actual_cost) 
+                        FROM phase_costs_and_timing 
+                        WHERE project_id = p.id
+                    ), 0) /
+                    COALESCE((
+                        SELECT SUM(allocated_cost) 
+                        FROM phase_costs_and_timing 
+                        WHERE project_id = p.id
+                    ), 0) * 100
+                , 1)
+            END AS completion_percent
+        FROM projects         AS p, 
+             clients          AS c, 
+             users            AS u, 
+             project_categories AS pc
+        WHERE p.client_id          = c.id
+          AND p.user_id            = u.id
+          AND p.project_category_id = pc.id";
 
 
 
