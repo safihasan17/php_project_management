@@ -69,20 +69,23 @@ if (isset($_POST['delete_id'])) {
                 <div class="row">
                     <div class="col-12">
                         <div class="card mb-4">
+                            <div class="card-header">
+
                             <div class="row">
-                                <div class="col-12 col-md-6">
-                                    <a class="btn btn-sm btn-primary p-2 " href="create_project">Create Project</a>
+                                 <div class="col-12 col-md-6">
+                                    <a class="btn btn-sm btn-dark" href="create_project">Create Project</a>
                                 </div>
 
-                                <div class="col-12 col-md-6 d-flex justify-content-end align-items-center gap-5">
-                                    <label for="category-filter" class="text-secondary small mb-0">Filter by</label>
-                                    <select name="" id="category-filter" class="form-select form-select-sm w-auto">
-                                        <option value="0">All categories</option>
+                                <div class="col-12 col-md-6 text-end">
+                                    <select name="" id="category-filter">
+                                        <option value="0">ALL</option>
                                         <?php foreach ($categories as $category): ?>
-                                            <option value="<?= $category["id"]; ?>"><?= $category["name"]; ?></option>
+                                            <option value="<?= $category["id"]; ?>"> <?= $category["name"];  ?></option>
                                         <?php endforeach; ?>
                                     </select>
                                 </div>
+                            </div>
+                               
                             </div>
 
                             <?php if ($msg): ?>
@@ -245,41 +248,30 @@ if (isset($_POST['delete_id'])) {
     $("#category-filter").on("change", function() {
         let categoryId = $(this).val();
         $.ajax({
-            url: `api/get-projects?id=${categoryId}`,
+            url: `<?= BASE_URL_ADMIN; ?>api/api.php?endpoint=get-projects&id=${categoryId}`,
             type: "get",
-            // dataType: "json",
+            dataType: "json",
             success: function(projects) {
                 let html = "";
                 projects.forEach(item => {
-                    let phaseBudget = parseFloat(item.phase_budget);
-                    let phaseActual = parseFloat(item.phase_actual);
+                    let phaseBudget  = parseFloat(item.phase_budget);
+                    let phaseActual  = parseFloat(item.phase_actual);
                     let budgetDisplay = phaseBudget > 0 ? phaseBudget : parseFloat(item.budget_cost);
                     let actualDisplay = phaseActual > 0 ? phaseActual : parseFloat(item.actual_cost);
                     let percent = Math.min(parseFloat(item.completion_percent), 100);
 
                     // Progress bar color
                     let barColor = percent >= 100 ? 'bg-success' :
-                        percent >= 60 ? 'bg-info' :
-                        percent >= 30 ? 'bg-warning' : 'bg-secondary';
+                                   percent >= 60  ? 'bg-info' :
+                                   percent >= 30  ? 'bg-warning' : 'bg-secondary';
 
                     // Status badge
                     let status, badgeClass;
-                    if (percent >= 100) {
-                        status = 'Completed';
-                        badgeClass = 'bg-primary';
-                    } else if (percent >= 75) {
-                        status = 'Almost Done';
-                        badgeClass = 'bg-info';
-                    } else if (percent >= 30) {
-                        status = 'In Progress';
-                        badgeClass = 'bg-success';
-                    } else if (percent > 0) {
-                        status = 'Started';
-                        badgeClass = 'bg-warning text-dark';
-                    } else {
-                        status = 'Pending';
-                        badgeClass = 'bg-secondary';
-                    }
+                    if (percent >= 100)     { status = 'Completed';   badgeClass = 'bg-primary'; }
+                    else if (percent >= 75) { status = 'Almost Done'; badgeClass = 'bg-info'; }
+                    else if (percent >= 30) { status = 'In Progress'; badgeClass = 'bg-success'; }
+                    else if (percent > 0)   { status = 'Started';     badgeClass = 'bg-warning text-dark'; }
+                    else                    { status = 'Pending';     badgeClass = 'bg-secondary'; }
 
                     // Over budget
                     let isOver = actualDisplay > budgetDisplay && budgetDisplay > 0;
@@ -328,7 +320,7 @@ if (isset($_POST['delete_id'])) {
                     </tr>`;
                 });
 
-                $("#project-list table tbody").html(html);
+                $("#project-list table tbody").html(html); 
             },
             error: function(xhr) {
                 console.log(xhr.responseText);
