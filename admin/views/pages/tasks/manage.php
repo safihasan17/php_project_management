@@ -3,6 +3,13 @@
 $msg = "";
 require_once 'models/taskclass.php';
 
+
+function formatDate($date)
+{
+    if (!$date || $date == '0000-00-00 00:00:00' || $date == '1000-01-01 00:00:00') return '-';
+    return date('d M Y', strtotime($date));
+}
+
 if (isset($_POST['delete_id'])) {
     $id = $_POST['delete_id'];
     // echo $id;
@@ -14,6 +21,8 @@ if (isset($_POST['delete_id'])) {
         $msg = $res;
     }
 }
+
+
 
 
 $rows = Tasks::readALL();
@@ -65,7 +74,7 @@ $rows = Tasks::readALL();
 
                             <div class="card-body p-0">
                                 <div class="table-responsive">
-                                    <!-- table-bordered সরানো হয়েছে -->
+                                    
                                     <table class="table table-hover table-striped align-middle">
                                         <thead class="bg-light">
                                             <tr>
@@ -74,12 +83,34 @@ $rows = Tasks::readALL();
                                                 <th class="text-success fw-bold">Phase Title</th>
                                                 <th class="text-success fw-bold">Title</th>
                                                 <th class="text-success fw-bold">Team Name</th>
+                                                <th class="text-success fw-bold">Allocated Cost <small class="text-muted d-block fw-normal">(Budget)</small></th>
+                                                <th class="text-success fw-bold">Actual Cost</th>
+                                                <th class="text-success fw-bold">Phase Completion</th>
+                                                <th class="text-success fw-bold">Expected Time</th>
+                                                <th class="text-success fw-bold">Actual Time</th>
                                                 <th class="text-success fw-bold">Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
 
                                             <?php foreach ($rows as $items): ?>
+
+                                                <?php
+                                                $allocated = (float)$items['allocated_cost'];
+                                                $actual    = (float)$items['actual_cost'];
+                                                $percent   = (float)$items['task_percent'];
+                                                $isOver    = $actual > $allocated && $allocated > 0;
+
+                                                if ($percent >= 100) {
+                                                    $barColor = 'bg-success';
+                                                } elseif ($percent >= 60) {
+                                                    $barColor = 'bg-info';
+                                                } elseif ($percent >= 30) {
+                                                    $barColor = 'bg-warning';
+                                                } else {
+                                                    $barColor = 'bg-secondary';
+                                                }
+                                                ?>
                                                 <tr class="align-middle">
                                                     <td class="fw-bold text-primary"><?= $items['id'] ?></td>
                                                     <!-- ব্যাজ সরিয়ে শুধু রঙিন টেক্সট -->
@@ -87,6 +118,44 @@ $rows = Tasks::readALL();
                                                     <td class="text-success fw-semibold"><?= $items['phase_title'] ?></td>
                                                     <td class="text-warning fw-semibold"><?= $items['title'] ?></td>
                                                     <td class="text-danger fw-semibold"><?= $items['team_name'] ?></td>
+
+                                                    
+                                                    <!-- Allocated Cost (Budget) -->
+                                                    <td class="fw-semibold text-success">
+                                                        <?= number_format($allocated, 2) ?>
+                                                    </td>
+
+                                                    <!-- Actual Cost -->
+                                                    <td class="<?= $isOver ? 'text-danger fw-semibold' : 'text-success fw-semibold' ?>">
+                                                        <?= number_format($actual, 2) ?>
+                                                        <?php if ($isOver): ?>
+                                                            <br><small class="text-danger"><i class="fa fa-arrow-up"></i> Over</small>
+                                                        <?php endif; ?>
+                                                    </td>
+
+                                                    <!-- task Completion -->
+                                                    <td style="min-width: 130px;">
+                                                        <div class="d-flex align-items-center gap-2">
+                                                            <div class="progress flex-grow-1" style="height:10px; border-radius:6px;">
+                                                                <div class="progress-bar <?= $barColor ?>"
+                                                                    role="progressbar"
+                                                                    style="width: <?= $percent ?>%;"
+                                                                    aria-valuenow="<?= $percent ?>"
+                                                                    aria-valuemin="0"
+                                                                    aria-valuemax="100">
+                                                                </div>
+                                                            </div>
+                                                            <span class="small fw-semibold" style="min-width:38px;">
+                                                                <?= $percent ?>%
+                                                            </span>
+                                                        </div>
+                                                    </td>
+
+                                                    <!-- Expected Time: ব্যাজ না করে শুধু টেক্সট রঙ -->
+                                                    <td class="text-warning fw-semibold"><?= formatDate($items['expected_time']) ?></td>
+
+                                                    <!-- Actual Time: ব্যাজ না করে শুধু টেক্সট রঙ -->
+                                                    <td class="text-danger fw-semibold"><?= formatDate($items['actual_time']) ?></td>
 
                                                     <td>
                                                         <div class="btn-group" role="group">

@@ -44,6 +44,10 @@ if(isset($_GET['page'])){
         include_once('views/pages/projects/project.detailed.php');
     }
 
+    elseif($page == 'edit_task'){
+        include_once('views/pages/projects/edittasks.php');
+    }
+
 
 
     //phases
@@ -114,6 +118,10 @@ if(isset($_GET['page'])){
     elseif($page == 'login'){
         include_once('views/pages/auth/login.php');
     }
+
+    
+
+
     
     else{
         include_once('views/pages/auth/login.php');

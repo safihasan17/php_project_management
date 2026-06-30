@@ -15,7 +15,7 @@ if (isset($_POST['delete_id'])) {
     $res = PhaseCostsandTiming::delete($id);
 
     if ($res === true) {
-        $msg = "Phase cost deleted successfully. Project budget updated automatically.";
+        $msg = "Phase cost deleted successfully.";
     } else {
         $msg = $res;
     }
