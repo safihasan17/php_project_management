@@ -39,6 +39,10 @@ if(isset($_POST['email']) && isset($_POST['password'])){
     .nk-sidebar{
         display: none;
     }
+
+    .nk-wrap {
+    padding-left: 0 !important;
+    }
 </style>
 
 <div class="contain-wrapper ">

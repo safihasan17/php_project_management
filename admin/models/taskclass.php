@@ -7,15 +7,23 @@ class Tasks
     public $phase_id;
     public $title;
     public $assign_to_team_id;
+    // public $allocated_cost;
+    // public $actual_cost;
+    // public $actual_time;
+    // public $expected_time;
 
 
-    public function __construct($_id, $_project_id, $_phase_id, $_title, $_assign_to_team_id)
+    public function __construct($_id, $_project_id, $_phase_id, $_title, $_assign_to_team_id )
     {
         $this->id = $_id;
         $this->project_id = $_project_id;
         $this->phase_id = $_phase_id;
         $this->title = $_title;
         $this->assign_to_team_id = $_assign_to_team_id;
+        // $this->allocated_cost = $_actual_cost;
+        // $this->actual_cost = $_assign_to_team_id;
+        // $this->actual_time = $_actual_time;
+        // $this->expected_time = $_expected_time;
     }
 
 

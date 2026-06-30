@@ -114,13 +114,12 @@ if(isset($_GET['page'])){
     elseif($page == 'login'){
         include_once('views/pages/auth/login.php');
     }
-
-
+    
     else{
-        include_once('views/pages/dashboard.php');
+        include_once('views/pages/auth/login.php');
     }
 }
 else{
-        include_once('views/pages/dashboard.php');
+        include_once('views/pages/auth/login.php');
     }
 ?>

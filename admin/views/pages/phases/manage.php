@@ -82,6 +82,63 @@ if (isset($_GET['pg'])) {
 
                             <div class="card-body p-0">
                                 <div class="table-responsive">
+                                    
+                                    <table class="table table-hover table-striped align-middle">
+                                        <thead class="bg-light">
+                                            <tr>
+                                                <th class="text-success fw-bold">ID</th>
+                                                <th class="text-success fw-bold">Title</th>
+                                                <th class="text-success fw-bold">Project Categories</th>
+                                                <th class="text-success fw-bold">Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                            <?php foreach ($rows as $items): ?>
+                                                <tr class="align-middle">
+                                                    <td class="fw-bold text-primary"><?= $items['id'] ?></td>
+                                                    <td class="fw-semibold text-dark"><?= $items['title'] ?></td>
+                                                    
+                                                    <td class="text-warning fw-semibold"><?= $items['project_category'] ?></td>
+
+                                                    <td>
+                                                        <div class="btn-group" role="group">
+                                                            <a href="edit_phases?id=<?= $items['id']; ?>" class="btn btn-sm btn-outline-primary rounded-start" title="Edit">
+                                                                <i class="fa fa-edit"></i>
+                                                            </a>
+                                                            <form action="" method="POST" class="d-inline">
+                                                                <input type="hidden" name="delete_id" value="<?= $items['id']; ?>">
+                                                                <button type="submit" class="btn btn-sm btn-outline-danger rounded-end" title="Delete" onclick="return confirm('Are you sure?')">
+                                                                    <i class="fa fa-trash"></i>
+                                                                </button>
+                                                            </form>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+
+                                            <?php endforeach; ?>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <!-- pagination -->
+                                <div class="card-footer clearfix">
+                                    <ul class="pagination pagination-sm m-0 float-right">
+                                        <li class="page-item"><a class="page-link" href="manage_phases?pg=1">First</a></li>
+                                        <?php for ($i = 1; $i <= $pages; $i++): ?>
+                                            <li class="page-item <?= ($pg == $i) ? 'active' : '' ?>">
+                                                <a class="page-link" href="manage_phases?pg=<?= $i; ?>"><?= $i ?></a>
+                                            </li>
+                                        <?php endfor; ?>
+                                        <li class="page-item"><a class="page-link" href="manage_phases?pg=<?= $pages; ?>">Last</a></li>
+                                    </ul>
+                                </div>
+
+                            </div>
+
+                            <!-- <div class="card-body p-0">
+                                <div class="table-responsive">
                                     <table class="table table-bordered">
                                         <thead>
                                             <tr>
@@ -124,7 +181,7 @@ if (isset($_GET['pg'])) {
                                     </table>
                                 </div>
 
-                                <!-- pagination -->
+                                
 
                                 <div class="card-footer clearfix">
                                     <ul class="pagination pagination-sm m-0 float-right">
@@ -142,7 +199,9 @@ if (isset($_GET['pg'])) {
                                     </ul>
                                 </div>
 
-                            </div>
+                            </div> -->
+
+
                             <!-- /.card-body -->
 
                         </div>
